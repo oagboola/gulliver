@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col';
 import styled from 'styled-components';
 import Image from 'react-bootstrap/Image';
 
-import Login from '../components/Login/Login';
+import Login from '../../components/Login/Login';
 import './Home.css'
 
 const HomeImage = styled.div`
