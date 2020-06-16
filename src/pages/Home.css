@@ -1,0 +1,41 @@
+.loginWrapper {
+  margin-top: 5%;
+  margin-bottom: 5%;
+  height: 50em;
+}
+
+.loginBox {
+  background-color: #000080;
+  height: auto;
+}
+
+.homeRow {
+  height: inherit;
+}
+
+.homeContentWrap {
+  background-color: #eef2f8;
+  padding: 0!important;
+  height: inherit;
+}
+
+
+.attactionsTitle {
+  height: 100px;
+  text-align: center;
+}
+
+.siteImagesWrapper {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.mainSiteImage {
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.mainSiteImageTitle {
+  text-align: center;
+  padding: 20px;
+}
