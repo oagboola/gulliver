@@ -9,12 +9,15 @@ const App = () => {
   return (
     <>
       <TopNav />
-      <BrowserRouter>
-        <Route path="/" exact= {true} component={Home} />
-        <Route path="/dashboard" exact= {true} component={Dashboard} />
-      </BrowserRouter>
+        <BrowserRouter>
+          <Route path="/" exact= {true} component={Home} />
+          <Route path="/dashboard" exact= {true} component={Dashboard} />
+        </BrowserRouter>
     </>
   )
 }
 
-export default App
+export default App;
+
+
+
