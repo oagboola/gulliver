@@ -1,12 +1,15 @@
 import { db } from './firebaseConfig';
 
 const entriesApi = {
-  create: (data) => {\
-    const key = db.ref('entries').push().key;
+  create: (data) => {
+    let key = data.id
+    if(!key) {
+      key = db.ref('entries').push().key
+    }
     db.ref(`entries/${key}`).set({
       id: key,
       date: new Date(),
-      content: data.entry,
+      content: data.content,
       title: data.title
     }, (err) => {
       if(err) {

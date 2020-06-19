@@ -1,11 +1,12 @@
 import firebase from 'firebase';
 
 const config = {
-  apiKey: "AIzaSyCrrvzpzU9T6UCCnzDyWomlkAmijJpN0SI",
-  authDomain: "gulliver-c29d6.firebaseapp.com",
-  databaseURL: "https://gulliver-c29d6.firebaseio.com"
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASE_URL
 };
 
+console.log('process env', process.env)
 firebase.initializeApp(config);
 
 export const auth = firebase.auth;
