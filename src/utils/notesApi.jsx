@@ -21,6 +21,9 @@ const entriesApi = {
   },
   list: () => {
     return db.ref('entries').once('value');
+  },
+  delete: (key) => {
+    return db.ref(`entries/${key}`).remove();
   }
 };
 

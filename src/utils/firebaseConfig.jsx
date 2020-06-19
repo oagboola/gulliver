@@ -6,7 +6,6 @@ const config = {
   databaseURL: process.env.REACT_APP_DATABASE_URL
 };
 
-console.log('process env', process.env)
 firebase.initializeApp(config);
 
 export const auth = firebase.auth;
