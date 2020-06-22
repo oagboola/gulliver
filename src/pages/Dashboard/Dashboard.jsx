@@ -1,23 +1,26 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 
 import NoteList from '../../components/NoteList/NoteList'
 import NoteEditor from '../../components/NoteEditor/NoteEditor';
-import notesApi from '../../utils/notesApi'
+import EntriesApi from '../../utils/notesApi'
+import { FirebaseContext } from '../../components/Firebase';
 
 const Dashboard = () => {
+  const fib = useContext(FirebaseContext);
   const [notes, setNotes] = useState({});
   const [currNote, setCurrNote] = useState({});
+  const entriesApi = new EntriesApi(fib);
   useEffect(() => {
-    notesApi
+    entriesApi
       .list()
         .then(notes => {
           setNotes(notes.val())
         })
         .catch(err => alert(err));
-  }, [notes]);
+  }, []);
 
   const updateCurrNote = (selectedNote) => {
     setCurrNote(selectedNote);

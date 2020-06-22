@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-import entriesApi from '../../utils/notesApi';
+import EntriesApi from '../../utils/notesApi';
+import { FirebaseContext } from '../Firebase';
+
 
 const NoteEditor = ({currNote, setCurrNote}) => {
+  const fib = useContext(FirebaseContext);
+  const entriesApi = new EntriesApi(fib);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     entriesApi.create(currNote)
