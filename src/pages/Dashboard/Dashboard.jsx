@@ -15,6 +15,7 @@ const Dashboard = () => {
   const entriesApi = new EntriesApi(firebase);
 
   useEffect(() => {
+    console.log('something happened here')
     entriesApi.entries().on('value', (snapshot) => {
       setNotes(snapshot.val())
     })

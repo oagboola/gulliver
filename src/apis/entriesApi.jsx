@@ -27,7 +27,7 @@ class EntriesApi {
     })
   }
 
-  delete(key) {
+  delete = key => {
     return this.db.ref(`entries/${key}`).remove();
   }
 

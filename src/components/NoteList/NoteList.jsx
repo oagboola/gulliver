@@ -1,16 +1,20 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
+
 import EntriesApi from '../../apis/entriesApi';
+import { FirebaseContext } from '../Firebase';
 
 const NoteList = ({notes, updateDisplayedNote}) => {
+  const firebase = useContext(FirebaseContext);
+  const entriesApi = new EntriesApi(firebase);
 
   const displayNote = (selectedNote) => {
     updateDisplayedNote(selectedNote);
   }
 
   const handleClick = (selection) => {
-    EntriesApi.delete(selection.id);
+    entriesApi.delete(selection.id);
   }
 
   return (
