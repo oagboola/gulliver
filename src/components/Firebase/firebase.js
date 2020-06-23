@@ -13,7 +13,7 @@ class Firebase {
     this.app = app;
     this.app.initializeApp(this.config);
     this.auth = this.app.auth;
-    this.db = this.app.database()
+    this.db = this.app.database();
   }
 }
 

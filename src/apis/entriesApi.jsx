@@ -4,10 +4,14 @@ class EntriesApi {
     this.db = this.firebase.db;
   }
 
-  create(data) {
-    let key = data.id
+  entries = () => this.db.ref('entries');
+
+  entry = key => this.db.ref(`entries/${key}`);
+
+  createOrUpdate = data => {
+    let key = data.id;
     if (!key) {
-      key = this.db.ref('entries').push().key
+      key = this.db.ref('entries').push().key;
     }
     this.db.ref(`entries/${key}`).set({
       id: key,
@@ -21,10 +25,6 @@ class EntriesApi {
         console.log('note saved successfullly')
       }
     })
-  }
-
-  list() {
-    return this.db.ref('entries').once('value');
   }
 
   delete(key) {

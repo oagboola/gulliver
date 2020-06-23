@@ -5,21 +5,19 @@ import Container from 'react-bootstrap/Container';
 
 import NoteList from '../../components/NoteList/NoteList'
 import NoteEditor from '../../components/NoteEditor/NoteEditor';
-import EntriesApi from '../../utils/notesApi'
+import EntriesApi from '../../apis/entriesApi';
 import { FirebaseContext } from '../../components/Firebase';
 
 const Dashboard = () => {
-  const fib = useContext(FirebaseContext);
+  const firebase = useContext(FirebaseContext);
   const [notes, setNotes] = useState({});
   const [currNote, setCurrNote] = useState({});
-  const entriesApi = new EntriesApi(fib);
+  const entriesApi = new EntriesApi(firebase);
+
   useEffect(() => {
-    entriesApi
-      .list()
-        .then(notes => {
-          setNotes(notes.val())
-        })
-        .catch(err => alert(err));
+    entriesApi.entries().on('value', (snapshot) => {
+      setNotes(snapshot.val())
+    })
   }, []);
 
   const updateCurrNote = (selectedNote) => {
@@ -31,7 +29,7 @@ const Dashboard = () => {
        <Container fluid style={{height:'calc(100% - 58px)'}}>
          <Row style={{height: '100%'}}>
            <Col xs={2} style={{border:'1px solid black'}}>
-             <NoteList notes={notes} updater={updateCurrNote}/>
+             <NoteList notes={notes} updateDisplayedNote={updateCurrNote}/>
            </Col>
            <Col xs={10}  style={{border:''}}>
              <NoteEditor currNote={currNote} setCurrNote={setCurrNote}/>

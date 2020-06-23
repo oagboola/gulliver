@@ -2,23 +2,24 @@ import React, { useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-import EntriesApi from '../../utils/notesApi';
+import EntriesApi from '../../apis/entriesApi';
 import { FirebaseContext } from '../Firebase';
 
 
 const NoteEditor = ({currNote, setCurrNote}) => {
-  const fib = useContext(FirebaseContext);
-  const entriesApi = new EntriesApi(fib);
+  const firebase = useContext(FirebaseContext);
+  const entriesApi = new EntriesApi(firebase);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    entriesApi.create(currNote)
+    entriesApi.createOrUpdate(currNote)
   };
   const handleChange = (e, field) => {
     let entry = {...currNote};
     entry[field] = e.target.value
     setCurrNote(entry)
   };
+
   return <Form onSubmit={(e) => handleSubmit(e)}>
     <Form.Group>
       <Form.Label>Note title:</Form.Label>

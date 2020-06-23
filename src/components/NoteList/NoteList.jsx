@@ -1,16 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
-import notesApi from '../../utils/notesApi';
+import EntriesApi from '../../apis/entriesApi';
 
-const NoteList = ({notes, updater}) => {
+const NoteList = ({notes, updateDisplayedNote}) => {
 
   const displayNote = (selectedNote) => {
-    updater(selectedNote);
+    updateDisplayedNote(selectedNote);
   }
 
   const handleClick = (selection) => {
-    notesApi.delete(selection.id);
+    EntriesApi.delete(selection.id);
   }
 
   return (
