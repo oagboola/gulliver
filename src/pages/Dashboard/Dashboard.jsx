@@ -14,7 +14,7 @@ import { FirebaseContext } from '../../components/Firebase';
 const Dashboard = () => {
   const firebase = useContext(FirebaseContext);
   const [notes, setNotes] = useState({});
-  const [currNote, setCurrNote] = useState({});
+  const [currentNote, setCurrentNote] = useState({});
   const entriesApi = new EntriesApi(firebase);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const Dashboard = () => {
   }, []);
 
   const updateCurrNote = (selectedNote) => {
-    setCurrNote(selectedNote);
+    setCurrentNote(selectedNote);
   }
 
   return (
@@ -37,7 +37,7 @@ const Dashboard = () => {
            <Col xs={10}  style={{border:''}}>
              <Tabs defaultActiveKey="note">
                <Tab eventKey="note" title="Note">
-                 <NoteEditor currNote={currNote} setCurrNote={setCurrNote}/>
+                 <NoteEditor currentNote={currentNote} setCurrentNote={setCurrentNote}/>
                </Tab>
                <Tab eventKey="map" title="Map">
                  <Map />

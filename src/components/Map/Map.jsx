@@ -4,15 +4,16 @@ import { GoogleMap, LoadScript, Autocomplete } from '@react-google-maps/api';
 
 const libraries = ['places'];
 
+const containerStyle = {
+  width: '400px',
+  height: '400px'
+};
+
+const center = {
+  lat: 6.5236,
+  lng: 3.6006
+}
 const Map = () => {
-  const containerStyle = {
-    width: '400px',
-    height: '400px'
-  };
-  const center = {
-    lat: 6.5236,
-    lng: 3.6006
-  }
   const onLoad = (autocomplete) => {
     console.log('autocomplete ready');
   }
