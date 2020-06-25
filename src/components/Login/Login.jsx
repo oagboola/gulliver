@@ -42,7 +42,11 @@ const Login = () => {
     setCreds(userDetails);
   }
   const handleGoogleAuth = () => {
-    auth.googleSignIn();
+    auth.googleAuth();
+  }
+
+  const handleFacebookAuth = () => {
+    auth.facebookAuth();
   }
 
   return (
@@ -50,6 +54,7 @@ const Login = () => {
       <LoginContainer>
         <LoginTitle>Welcome to Gulliver Notes</LoginTitle>
         <p onClick={handleGoogleAuth}>Sign in with google</p>
+        <p onClick={handleFacebookAuth}>Sign in with facebook</p>
         <Form>
             <Form.Group>
               <Form.Control type="email" placeholder="Email" name="email" value={creds.email} onChange={(e) => handleChange(e, 'email')}/>

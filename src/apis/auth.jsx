@@ -34,7 +34,7 @@ class Auth {
       })
   }
 
-  googleSignIn() {
+  googleAuth() {
     const provider = new this.firebase.app.auth.GoogleAuthProvider();
     this.auth.signInWithPopup(provider)
       .then(resp => {
@@ -43,6 +43,17 @@ class Auth {
       .catch(err => {
         console.log('google signin failed'. err)
       })
+  }
+
+  facebookAuth() {
+    const provider = new this.firebase.app.auth.FacebookAuthProvider();
+    this.auth.signInWithPopup(provider)
+      .then(deets => {
+        console.log('succesfully logged in with facebook', deets)
+      })
+      .catch(err => {
+        console.log('error logging in user with facebook', err)
+      });
   }
 }
 
