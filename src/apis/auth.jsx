@@ -34,7 +34,16 @@ class Auth {
       })
   }
 
-  googleSignIn() {}
+  googleSignIn() {
+    const provider = new this.firebase.app.auth.GoogleAuthProvider();
+    this.auth.signInWithPopup(provider)
+      .then(resp => {
+        console.log('goggle singin succesful', resp)
+      })
+      .catch(err => {
+        console.log('google signin failed'. err)
+      })
+  }
 }
 
 export default Auth;

@@ -37,15 +37,19 @@ const Login = () => {
     auth.localSignup(creds);
   }
   const handleChange = (e, fieldName) => {
-    const x = creds;
-    x[fieldName] = e.target.value;
-    setCreds(x);
+    const userDetails = creds;
+    userDetails[fieldName] = e.target.value;
+    setCreds(userDetails);
+  }
+  const handleGoogleAuth = () => {
+    auth.googleSignIn();
   }
 
   return (
     <>
       <LoginContainer>
         <LoginTitle>Welcome to Gulliver Notes</LoginTitle>
+        <p onClick={handleGoogleAuth}>Sign in with google</p>
         <Form>
             <Form.Group>
               <Form.Control type="email" placeholder="Email" name="email" value={creds.email} onChange={(e) => handleChange(e, 'email')}/>
