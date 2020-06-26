@@ -15,9 +15,7 @@ class EntriesApi {
     }
     this.db.ref(`entries/${key}`).set({
       id: key,
-      date: new Date(),
-      content: data.content,
-      title: data.title
+      ...data
     }, (err) => {
       if (err) {
         console.log('error creating note', err);
