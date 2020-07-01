@@ -4,17 +4,19 @@ import Button from 'react-bootstrap/Button';
 
 import EntriesApi from '../../apis/entriesApi';
 import { FirebaseContext } from '../Firebase';
+import UserContext from '../../contexts/UserContext';
 
 const NoteList = ({notes, updateDisplayedNote}) => {
   const firebase = useContext(FirebaseContext);
   const entriesApi = new EntriesApi(firebase);
+  const { uid } = useContext(UserContext);
 
   const displayNote = (selectedNote) => {
     updateDisplayedNote(selectedNote);
   }
 
   const handleClick = (selection) => {
-    entriesApi.delete(selection.id);
+    entriesApi.delete(selection.id, uid);
   }
 
   return (

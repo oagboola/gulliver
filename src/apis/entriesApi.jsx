@@ -4,16 +4,16 @@ class EntriesApi {
     this.db = this.firebase.db;
   }
 
-  entries = () => this.db.ref('entries');
+  entries = (userId) => this.db.ref(`entries/${userId}`);
 
-  entry = key => this.db.ref(`entries/${key}`);
+  entry = (key, userId) => this.db.ref(`entries/${userId}/${key}`);
 
-  createOrUpdate = data => {
+  createOrUpdate = (data, userId) => {
     let key = data.id;
     if (!key) {
       key = this.db.ref('entries').push().key;
     }
-    this.db.ref(`entries/${key}`).set({
+    this.db.ref(`entries/${userId}/${key}`).set({
       id: key,
       ...data
     }, (err) => {
@@ -25,8 +25,8 @@ class EntriesApi {
     })
   }
 
-  delete = key => {
-    return this.db.ref(`entries/${key}`).remove();
+  delete = (key, userId) => {
+    return this.db.ref(`entries/${userId}/${key}`).remove();
   }
 
 }

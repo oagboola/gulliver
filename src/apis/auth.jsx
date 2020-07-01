@@ -41,7 +41,7 @@ class Auth {
         console.log('goggle singin succesful', resp)
       })
       .catch(err => {
-        console.log('google signin failed'. err)
+        console.log('google signin failed', err)
       })
   }
 
@@ -54,6 +54,10 @@ class Auth {
       .catch(err => {
         console.log('error logging in user with facebook', err)
       });
+  }
+
+  currentUser() {
+    return this.auth.currentUser;
   }
 }
 

@@ -1,32 +1,61 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import { CloudinaryContext } from 'cloudinary-react';
 
 import EntriesApi from '../../apis/entriesApi';
 import { FirebaseContext } from '../Firebase';
+import TripImage from '../TripImage/TripImage';
+import UserContext from '../../contexts/UserContext';
 
-
-const NoteEditor = ({currentEntry, setCurrentEntry}) => {
+const NoteEditor = ({ currentEntry, setCurrentEntry }) => {
   const firebase = useContext(FirebaseContext);
+  const { uid } = useContext(UserContext);
   const entriesApi = new EntriesApi(firebase);
+  const [images, setImages] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('entry ==>', currentEntry)
-    entriesApi.createOrUpdate(currentEntry)
+    entriesApi.createOrUpdate(currentEntry, uid);
   };
+
   const handleChange = (e) => {
     const target = e.target;
-    let entry = {...currentEntry};
+    let entry = { ...currentEntry };
     entry[target.name] = target.value;
     setCurrentEntry(entry)
   };
 
-  return (
-    <>
-      <Row>
+  const onDrop = (picture) => {
+    setImages(images.concat(picture))
+  }
+
+  const handleUpload = (images) => {
+    window.cloudinary.openUploadWidget({
+      cloud_name: 'lydex',
+      folder: `Gulliver/${uid}/${currentEntry.id}`,
+      uploadPreset: process.env.REACT_APP_CLOUDINARY_PRESET
+    }, (err, result) => {
+      if (result.event === 'success') {
+        const data = {
+          ...currentEntry,
+          imageUrls: {
+            publicId: result.info.public_id,
+            secureUrl: result.info.secure_url,
+            thumbnailUrl: result.info.thumbnail_url,
+            url: result.info.url,
+            path: result.info.path
+          }
+        }
+        entriesApi.createOrUpdate(data, uid)
+      }
+    })
+  }
+
+  return ( <>
+    <Row>
         <Col xs={12} sm={6}>
           <Form onSubmit={(e) => handleSubmit(e)}>
             <Form.Row>
@@ -77,7 +106,14 @@ const NoteEditor = ({currentEntry, setCurrentEntry}) => {
         <Col xs={12} sm={6}>
           <Form>
             <Form.Group>
-              <Form.File id="exampleFormControlFile1" label="Add pictures from this trip" />
+              <Button type="button" onClick={handleUpload}>Add pictures from this trip</Button>
+              <CloudinaryContext cloudName="lydex">
+                <div>
+                {currentEntry.imageUrls ?
+                  <TripImage src={currentEntry.imageUrls.thumbnailUrl}/> : <p>No images uploaded for this trip</p>
+                }
+                </div>
+              </CloudinaryContext>
             </Form.Group>
           </Form>
         </Col>
