@@ -27,13 +27,13 @@ const App = () => {
     <UserContext.Provider value={currentUser}>
       <BrowserRouter>
         <TopNav />
-        {/*
           <Route path="/" exact= {true} component={Home} />
           <Route path="/dashboard" exact= {true} component={Dashboard} />
+        {/*
+          <Switch>
+            <AppRoutes />
+          </Switch>
         */}
-        <Switch>
-          <AppRoutes />
-        </Switch>
       </BrowserRouter>
     </UserContext.Provider>
   )

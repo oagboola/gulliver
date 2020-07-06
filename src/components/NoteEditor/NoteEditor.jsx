@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import { CloudinaryContext } from 'cloudinary-react';
+import { CloudinaryContext, Image } from 'cloudinary-react';
 
 import EntriesApi from '../../apis/entriesApi';
 import { FirebaseContext } from '../Firebase';
@@ -35,8 +35,9 @@ const NoteEditor = ({ currentEntry, setCurrentEntry }) => {
   const handleUpload = (images) => {
     window.cloudinary.openUploadWidget({
       cloud_name: 'lydex',
-      folder: `Gulliver/${user.uid}/${currentEntry.id}`,
-      uploadPreset: process.env.REACT_APP_CLOUDINARY_PRESET
+      folder: 'Gulliver',
+      uploadPreset: process.env.REACT_APP_CLOUDINARY_PRESET,
+      tags: [currentEntry.id]
     }, (err, result) => {
       if (result.event === 'success') {
         const data = {
@@ -107,15 +108,13 @@ const NoteEditor = ({ currentEntry, setCurrentEntry }) => {
           <Form>
             <Form.Group>
               <Button type="button" onClick={handleUpload}>Add pictures from this trip</Button>
-              <CloudinaryContext cloudName="lydex">
-                <div>
-                {currentEntry.imageUrls ?
-                  <TripImage src={currentEntry.imageUrls.thumbnailUrl}/> : <p>No images uploaded for this trip</p>
-                }
-                </div>
-              </CloudinaryContext>
             </Form.Group>
           </Form>
+          <CloudinaryContext cloudName="lydex" width="300" height="300" crop="scale">
+            <div>
+              {currentEntry.id ? <TripImage currentEntry={currentEntry} /> : ''}
+            </div>
+          </CloudinaryContext>
         </Col>
       </Row>
     </>

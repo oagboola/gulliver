@@ -25,6 +25,10 @@ class EntriesApi {
     })
   }
 
+  addImage = (image) => {
+    let key
+  }
+
   delete = (key, userId) => {
     return this.db.ref(`entries/${userId}/${key}`).remove();
   }

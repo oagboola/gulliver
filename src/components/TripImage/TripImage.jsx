@@ -1,8 +1,21 @@
-import React from 'react';
-import Image from 'react-bootstrap/Image'
+import React, { useEffect, useState } from 'react';
+import { CloudinaryContext, Image } from 'cloudinary-react';
+import axios from 'axios';
 
-const TripImage = ({src}) => {
-  return <Image src={src} rounded fluid/>
+const TripImage = ({currentEntry}) => {
+  const [images, setImages] = useState([]);
+  useEffect(() => {
+  axios.get(`https://res.cloudinary.com/lydex/image/list/${currentEntry.id}.json`)
+    .then(res => {
+      setImages(res.data.resources);
+    })
+  }, [currentEntry]);
+
+  if(images.length) {
+    return images.map(img => <Image key={img.public_id} publicId={img.public_id}/>)
+  }
+
+  return <p>No images uploaded for this trip yet</p>
 }
 
 export default TripImage;
