@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 
@@ -23,8 +23,12 @@ const TopNav = () => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav" className="justify-content-end">
         <Nav>
-          <Nav.Link>{user.displayName}</Nav.Link>
-          <Nav.Link onClick={handleClick}>Sign out</Nav.Link>
+          {user ?
+            <>
+              <Nav.Link>{user.displayName}</Nav.Link>
+              <Nav.Link onClick={handleClick}>Sign out</Nav.Link>
+            </> : ''
+          }
         </Nav>
       </Navbar.Collapse>
     </Navbar>

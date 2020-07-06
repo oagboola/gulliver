@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Route, BrowserRouter } from 'react-router-dom';
+import { Route, BrowserRouter, Switch } from 'react-router-dom';
 
 import TopNav from '../Navbar/Navbar'
 import Home from '../../pages/Home/Home'
 import Dashboard from '../../pages/Dashboard/Dashboard'
 import UserContext from '../../contexts/UserContext';
 import { FirebaseContext } from '../Firebase';
+import AppRoutes from '../AppRoutes/AppRoutes';
 
 const App = () => {
   const firebase = useContext(FirebaseContext);
@@ -17,7 +18,7 @@ const App = () => {
         const { displayName, email, photoURL, uid} = user;
         setCurrentUser({displayName, email, photoURL, uid})
       } else {
-        console.log('user not signed in')
+        // console.log('user not signed in')
       }
     })
   }, []);
@@ -26,8 +27,13 @@ const App = () => {
     <UserContext.Provider value={currentUser}>
       <BrowserRouter>
         <TopNav />
-        <Route path="/" exact= {true} component={Home} />
-        <Route path="/dashboard" exact= {true} component={Dashboard} />
+        {/*
+          <Route path="/" exact= {true} component={Home} />
+          <Route path="/dashboard" exact= {true} component={Dashboard} />
+        */}
+        <Switch>
+          <AppRoutes />
+        </Switch>
       </BrowserRouter>
     </UserContext.Provider>
   )

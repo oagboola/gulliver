@@ -12,13 +12,13 @@ import UserContext from '../../contexts/UserContext';
 
 const NoteEditor = ({ currentEntry, setCurrentEntry }) => {
   const firebase = useContext(FirebaseContext);
-  const { uid } = useContext(UserContext);
+  const user = useContext(UserContext);
   const entriesApi = new EntriesApi(firebase);
   const [images, setImages] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    entriesApi.createOrUpdate(currentEntry, uid);
+    entriesApi.createOrUpdate(currentEntry, user.uid);
   };
 
   const handleChange = (e) => {
@@ -35,7 +35,7 @@ const NoteEditor = ({ currentEntry, setCurrentEntry }) => {
   const handleUpload = (images) => {
     window.cloudinary.openUploadWidget({
       cloud_name: 'lydex',
-      folder: `Gulliver/${uid}/${currentEntry.id}`,
+      folder: `Gulliver/${user.uid}/${currentEntry.id}`,
       uploadPreset: process.env.REACT_APP_CLOUDINARY_PRESET
     }, (err, result) => {
       if (result.event === 'success') {
@@ -49,7 +49,7 @@ const NoteEditor = ({ currentEntry, setCurrentEntry }) => {
             path: result.info.path
           }
         }
-        entriesApi.createOrUpdate(data, uid)
+        entriesApi.createOrUpdate(data, user.uid)
       }
     })
   }
