@@ -9,8 +9,12 @@ const TripImage = ({currentEntry}) => {
     .then(res => {
       setImages(res.data.resources);
     })
+    .catch(err => {
+      setImages([])
+    })
   }, [currentEntry]);
 
+  console.log('images here', images)
   if(images.length) {
     return images.map(img => <Image key={img.public_id} publicId={img.public_id}/>)
   }

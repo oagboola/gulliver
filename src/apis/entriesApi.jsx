@@ -2,6 +2,7 @@ class EntriesApi {
   constructor(firebase) {
     this.firebase = firebase;
     this.db = this.firebase.db;
+    this.ref = this.db.ref('entries');
   }
 
   entries = (userId) => this.db.ref(`entries/${userId}`);
@@ -23,6 +24,10 @@ class EntriesApi {
         console.log('note saved successfullly')
       }
     })
+  }
+
+  update = (userId, entryId, data) => {
+    this.ref.child(`${userId}/${entryId}`).update(data)
   }
 
   addImage = (image) => {

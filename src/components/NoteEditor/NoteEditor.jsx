@@ -19,6 +19,7 @@ const NoteEditor = ({ currentEntry, setCurrentEntry }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     entriesApi.createOrUpdate(currentEntry, user.uid);
+    setCurrentEntry({})
   };
 
   const handleChange = (e) => {
@@ -40,17 +41,7 @@ const NoteEditor = ({ currentEntry, setCurrentEntry }) => {
       tags: [currentEntry.id]
     }, (err, result) => {
       if (result.event === 'success') {
-        const data = {
-          ...currentEntry,
-          imageUrls: {
-            publicId: result.info.public_id,
-            secureUrl: result.info.secure_url,
-            thumbnailUrl: result.info.thumbnail_url,
-            url: result.info.url,
-            path: result.info.path
-          }
-        }
-        entriesApi.createOrUpdate(data, user.uid)
+        //image uploaded successfully
       }
     })
   }
@@ -105,14 +96,15 @@ const NoteEditor = ({ currentEntry, setCurrentEntry }) => {
           </Form>
         </Col>
         <Col xs={12} sm={6}>
-          <Form>
-            <Form.Group>
-              <Button type="button" onClick={handleUpload}>Add pictures from this trip</Button>
-            </Form.Group>
-          </Form>
           <CloudinaryContext cloudName="lydex" width="300" height="300" crop="scale">
             <div>
-              {currentEntry.id ? <TripImage currentEntry={currentEntry} /> : ''}
+              {currentEntry.id ?
+                <>
+                  <TripImage currentEntry={currentEntry} />
+                  <Button type="button" onClick={handleUpload}>Add images</Button>
+                </>
+                 : <p>Select existing entry to upload images</p>
+              }
             </div>
           </CloudinaryContext>
         </Col>
