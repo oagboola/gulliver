@@ -27,7 +27,7 @@ const TopNav = ({ signOut }) => {
         className='justify-content-end'
       >
         <Nav>
-          {user && (
+          {user && user.displayName && (
             <>
               <Nav.Link>{user.displayName}</Nav.Link>
               <Nav.Link onClick={handleClick}>Sign out</Nav.Link>
