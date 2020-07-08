@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -37,11 +37,11 @@ const Dashboard = () => {
 
   const updateCurrNote = (selectedNote) => {
     setCurrentEntry(selectedNote);
-  }
+  };
 
   const handleClick = () => {
-    setCurrentEntry({})
-  }
+    setCurrentEntry({});
+  };
 
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
