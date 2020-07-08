@@ -30,10 +30,6 @@ class EntriesApi {
     this.ref.child(`${userId}/${entryId}`).update(data)
   }
 
-  addImage = (image) => {
-    let key
-  }
-
   delete = (key, userId) => {
     return this.db.ref(`entries/${userId}/${key}`).remove();
   }
