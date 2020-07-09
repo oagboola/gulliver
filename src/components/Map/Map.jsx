@@ -19,15 +19,13 @@ const center = {
   lng: 3.6006
 };
 
-const Map = ({locations, setLocations}) => {
+const Map = ({locations, setLocations, mapCenter, setMapCenter, zoom, setZoom}) => {
   const firebase = useContext(FirebaseContext);
   const placesApi = new PlacesApi(firebase);
   const user = useContext(UserContext);
   const [mapAutocomplete, setMapAutoComplete] = useState(null);
-  const [mapCenter, setMapCenter] = useState(center);
   const [showInfo, setShowInfo] = useState(false)
-  const [zoom, setZoom] = useState(10);
-  const [currentClickedLocation, setCurrentClickedLocation] = useState(center);
+  const [currentClickedLocation, setCurrentClickedLocation] = useState({});
 
   const onLoad = (autoComplete) => {
     setMapAutoComplete(autoComplete);
@@ -87,8 +85,8 @@ const Map = ({locations, setLocations}) => {
                 marginLeft: "-120px"
               }} />
         </Autocomplete>
-        <Marker position={mapCenter} onClick={handleMarkerClick} icon="https://res.cloudinary.com/lydex/image/upload/v1594130380/Gulliver/icons/red.png"></Marker> : ''
-        <Markers locations={locations} onMarkerClick={handleMarkerClick} />
+        <Marker position={mapCenter} onClick={handleMarkerClick} icon="https://res.cloudinary.com/lydex/image/upload/v1594130380/Gulliver/icons/red.png"/> : ''
+        <Markers locations={locations} onMarkerClick={handleMarkerClick}/>
         { showInfo ?
           <>
             <InfoWindow position={currentClickedLocation} onCloseClick={handleCloseClick}>

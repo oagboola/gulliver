@@ -25,6 +25,8 @@ const Dashboard = () => {
   const [currentEntry, setCurrentEntry] = useState({});
   const [selectedTab, setSelectedTab] = useState('note');
   const [locations, setLocations] = useState([]);
+  const [mapCenter, setMapCenter] = useState({lat: 6.5236,lng: 3.6006});
+  const [zoom, setZoom] = useState(10);
 
   useEffect(() => {
     entriesApi.entries(user.uid).on('value', (snapshot) => {
@@ -56,7 +58,7 @@ const Dashboard = () => {
              selectedTab === 'note' ?
               notes ?
                 <NoteList notes={notes} updateDisplayedNote={updateCurrNote}/> : <p>Retrieving your saved entries...</p>
-              : <PlacesList locations={locations} />
+              : <PlacesList locations={locations} setMapCenter={setMapCenter} setZoom={setZoom}/>
            }
            </Col>
            <Col xs={10}  style={{border:''}}>
@@ -66,7 +68,7 @@ const Dashboard = () => {
                  <NoteEditor currentEntry={currentEntry} setCurrentEntry={setCurrentEntry}/>
                </Tab>
                <Tab eventKey="map" title="Map">
-                 <Map locations={locations}/>
+                 <Map locations={locations} mapCenter={mapCenter} setMapCenter={setMapCenter} zoom={zoom} setZoom={setZoom}/>
                </Tab>
              </Tabs>
            </Col>
