@@ -43,15 +43,11 @@ const Map = ({locations, setLocations}) => {
     setZoom(15);
   }
 
-  const handleMarkerClick = (e) => {
-    const location = mapAutocomplete.getPlace();
-    const locationDetails = {
-      ...(location && {name: location.name, formatted_address: location.formatted_address}),
-    }
+  const handleMarkerClick = (e, location=mapAutocomplete.getPlace()) => {
     setCurrentClickedLocation({
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
-      ...(locationDetails && locationDetails)
+      ...(location && location)
     })
     setShowInfo(true)
   }
@@ -92,14 +88,22 @@ const Map = ({locations, setLocations}) => {
               }} />
         </Autocomplete>
         <Marker position={mapCenter} onClick={handleMarkerClick} icon="https://res.cloudinary.com/lydex/image/upload/v1594130380/Gulliver/icons/red.png"></Marker> : ''
-        <Markers locations={locations} onClick={handleMarkerClick} />
-        { showInfo &&  mapAutocomplete.getPlace() ?
+        <Markers locations={locations} onMarkerClick={handleMarkerClick} />
+        { showInfo ?
           <>
             <InfoWindow position={currentClickedLocation} onCloseClick={handleCloseClick}>
               <div>
-                <Button type="button" onClick={() => handleClick(true)}>Add to visited places</Button>
-                ''
-                <Button type="button"  onClick={() => handleClick(false)}>Add to wishlist</Button>
+                <p>{currentClickedLocation.name}</p>
+                {
+                  !currentClickedLocation.geometry && currentClickedLocation.name ?
+                    ( currentClickedLocation.visited ? <p>You have visited this place</p> : <p>You haven't been here yet</p>)
+                     :
+                    (<div>
+                        <Button type="button" onClick={() => handleClick(true)}>Add to visited places</Button>
+                        ''
+                        <Button type="button"  onClick={() => handleClick(false)}>Add to wishlist</Button>
+                      </div>)
+                }
               </div>
             </InfoWindow>
           </>
