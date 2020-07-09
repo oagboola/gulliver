@@ -7,8 +7,9 @@ import Card from 'react-bootstrap/Card';
 import PlacesApi from '../../apis/placesApi';
 import { FirebaseContext } from '../Firebase';
 import UserContext from '../../contexts/UserContext';
+import './PlacesList.css';
 
-const PlacesList = ({ locations }) => {
+const PlacesList = ({ locations, setMapCenter, setZoom }) => {
   const { uid } = useContext(UserContext);
   const firebase = useContext(FirebaseContext);
   const placesApi = new PlacesApi(firebase);
@@ -17,8 +18,9 @@ const PlacesList = ({ locations }) => {
     placesApi.delete(key, uid)
   }
 
-  const handlePlaceClick = (place) => {
-    console.log('clicked', place)
+  const handlePlaceClick = ({lat, lng}) => {
+    setMapCenter({lat, lng});
+    setZoom(15);
   }
 
   const visitedPlaces = Object.values(locations).filter(place => place.visited);
@@ -30,7 +32,7 @@ const PlacesList = ({ locations }) => {
         Places visited
       </Accordion.Toggle>
        { visitedPlaces && visitedPlaces.map(place =>
-          <Accordion.Collapse eventKey="0" key={place.id}>
+          <Accordion.Collapse eventKey="0" key={place.id} className="placeListItem">
             <Card.Body onClick={() => handlePlaceClick(place)}>
               <p>{place.name}</p>
               <p>{place.formatted_address}</p>
@@ -44,7 +46,7 @@ const PlacesList = ({ locations }) => {
         Wishlist
       </Accordion.Toggle>
       { notVisitedPlaces && notVisitedPlaces.map(place =>
-         <Accordion.Collapse eventKey="1" key={place.id}>
+         <Accordion.Collapse eventKey="1" key={place.id} className="placeListItem">
            <Card.Body  onClick={() => handlePlaceClick(place)}>
              <p>{place.name}</p>
              <p>{place.formatted_address}</p>

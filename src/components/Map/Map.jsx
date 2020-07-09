@@ -19,15 +19,13 @@ const center = {
   lng: 3.6006
 };
 
-const Map = ({locations, setLocations}) => {
+const Map = ({locations, setLocations, mapCenter, setMapCenter, zoom, setZoom}) => {
   const firebase = useContext(FirebaseContext);
   const placesApi = new PlacesApi(firebase);
   const user = useContext(UserContext);
   const [mapAutocomplete, setMapAutoComplete] = useState(null);
-  const [mapCenter, setMapCenter] = useState(center);
   const [showInfo, setShowInfo] = useState(false)
-  const [zoom, setZoom] = useState(10);
-  const [currentClickedLocation, setCurrentClickedLocation] = useState(center);
+  const [currentClickedLocation, setCurrentClickedLocation] = useState({});
 
   const onLoad = (autoComplete) => {
     setMapAutoComplete(autoComplete);
@@ -43,15 +41,11 @@ const Map = ({locations, setLocations}) => {
     setZoom(15);
   }
 
-  const handleMarkerClick = (e) => {
-    const location = mapAutocomplete.getPlace();
-    const locationDetails = {
-      ...(location && {name: location.name, formatted_address: location.formatted_address}),
-    }
+  const handleMarkerClick = (e, location=mapAutocomplete.getPlace()) => {
     setCurrentClickedLocation({
       lat: e.latLng.lat(),
       lng: e.latLng.lng(),
-      ...(locationDetails && locationDetails)
+      ...(location && location)
     })
     setShowInfo(true)
   }
@@ -91,15 +85,23 @@ const Map = ({locations, setLocations}) => {
                 marginLeft: "-120px"
               }} />
         </Autocomplete>
-        <Marker position={mapCenter} onClick={handleMarkerClick} icon="https://res.cloudinary.com/lydex/image/upload/v1594130380/Gulliver/icons/red.png"></Marker> : ''
-        <Markers locations={locations} onClick={handleMarkerClick} />
-        { showInfo &&  mapAutocomplete.getPlace() ?
+        <Marker position={mapCenter} onClick={handleMarkerClick} icon="https://res.cloudinary.com/lydex/image/upload/v1594130380/Gulliver/icons/red.png"/> : ''
+        <Markers locations={locations} onMarkerClick={handleMarkerClick}/>
+        { showInfo ?
           <>
             <InfoWindow position={currentClickedLocation} onCloseClick={handleCloseClick}>
               <div>
-                <Button type="button" onClick={() => handleClick(true)}>Add to visited places</Button>
-                ''
-                <Button type="button"  onClick={() => handleClick(false)}>Add to wishlist</Button>
+                <p>{currentClickedLocation.name}</p>
+                {
+                  !currentClickedLocation.geometry && currentClickedLocation.name ?
+                    ( currentClickedLocation.visited ? <p>You have visited this place</p> : <p>You haven't been here yet</p>)
+                     :
+                    (<div>
+                        <Button type="button" onClick={() => handleClick(true)}>Add to visited places</Button>
+                        ''
+                        <Button type="button"  onClick={() => handleClick(false)}>Add to wishlist</Button>
+                      </div>)
+                }
               </div>
             </InfoWindow>
           </>
