@@ -2,22 +2,21 @@ class EntriesApi {
   constructor(firebase) {
     this.firebase = firebase;
     this.db = this.firebase.db;
+    this.ref = this.db.ref('entries');
   }
 
-  entries = () => this.db.ref('entries');
+  entries = (userId) => this.db.ref(`entries/${userId}`);
 
-  entry = key => this.db.ref(`entries/${key}`);
+  entry = (key, userId) => this.db.ref(`entries/${userId}/${key}`);
 
-  createOrUpdate = data => {
+  createOrUpdate = (data, userId) => {
     let key = data.id;
     if (!key) {
       key = this.db.ref('entries').push().key;
     }
-    this.db.ref(`entries/${key}`).set({
+    this.db.ref(`entries/${userId}/${key}`).set({
       id: key,
-      date: new Date(),
-      content: data.content,
-      title: data.title
+      ...data
     }, (err) => {
       if (err) {
         console.log('error creating note', err);
@@ -27,8 +26,12 @@ class EntriesApi {
     })
   }
 
-  delete = key => {
-    return this.db.ref(`entries/${key}`).remove();
+  update = (userId, entryId, data) => {
+    this.ref.child(`${userId}/${entryId}`).update(data)
+  }
+
+  delete = (key, userId) => {
+    return this.db.ref(`entries/${userId}/${key}`).remove();
   }
 
 }
